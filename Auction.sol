@@ -6,15 +6,17 @@ contract Auction{
     address payable public auctioneer; 
     enum state{start,end,wait,cancel}
     state public auctionState = state.wait;
+    uint public startingBid; 
 
     struct bidder{
         uint bid;
         bool isJoin;
+        bool firstBid;
     }
 
     mapping (address=>bidder) public bidders;
     address payable[] public bidderAddress;
-    address public winner;
+    address winner;
 
     constructor(){
         auctioneer = payable(msg.sender); 
@@ -34,8 +36,10 @@ contract Auction{
         require(auctionState == state.end, "Auction is ongoing, Please wait for the auction to finish");
         _;
     }
-    function startAuction() public isAuctioneer{
+
+    function startAuction(uint firstBid) public isAuctioneer{
         auctionState = state.start;
+        startingBid = firstBid * (1 ether);
     }
 
     function endAuction() public isAuctioneer isAuctionStart{
@@ -62,7 +66,8 @@ contract Auction{
     function joinAuction() public isAuctionStart{
         bidder memory newBidder = bidder({
             bid : 0,
-            isJoin : true
+            isJoin : true,
+            firstBid : false
         });
         bidders[msg.sender] = newBidder;
         bidderAddress.push(payable(msg.sender));
@@ -70,6 +75,10 @@ contract Auction{
 
     function placeBid() payable public isAuctionStart{
         require(bidders[msg.sender].isJoin == true);
+        if(!(bidders[msg.sender].firstBid)){
+            require(msg.value >= startingBid, "You have to bid atleast of starting Bid");
+            bidders[msg.sender].firstBid = true;
+        }
         require(bidders[msg.sender].bid + msg.value >= bidders[msg.sender].bid + (1 ether), "You have to increase your bid by atleast 1 ether.");
         bidders[msg.sender].bid = bidders[msg.sender].bid + msg.value;
     }
@@ -82,4 +91,3 @@ contract Auction{
         auctioneer.transfer(address(this).balance);
     }
 }
-
