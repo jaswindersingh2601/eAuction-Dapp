@@ -70,6 +70,7 @@ contract Auction{
 
     function placeBid() payable public isAuctionStart{
         require(bidders[msg.sender].isJoin == true);
+        require(bidders[msg.sender].bid + msg.value >= bidders[msg.sender].bid + (1 ether), "You have to increase your bid by atleast 1 ether.");
         bidders[msg.sender].bid = bidders[msg.sender].bid + msg.value;
     }
 
