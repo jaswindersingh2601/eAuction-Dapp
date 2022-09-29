@@ -4,6 +4,8 @@ pragma solidity >=0.7.0 <0.9.0;
 
 contract Auction{
     address payable public auctioneer; 
+    uint public startTiming;
+    uint public endTiming;
     enum state{start,end,wait,cancel}
     state public auctionState = state.wait;
     uint public startingBid; 
@@ -19,7 +21,7 @@ contract Auction{
     address winner;
 
     constructor(){
-        auctioneer = payable(msg.sender); 
+        auctioneer = payable(msg.sender);
     }
 
     modifier isAuctioneer{
@@ -33,16 +35,17 @@ contract Auction{
     }
 
     modifier isAuctionEnd{
-        require(auctionState == state.end, "Auction is ongoing, Please wait for the auction to finish");
+        require(block.timestamp >= endTiming, "Auction is ongoing, Please wait for the auction to finish");
         _;
     }
-
-    function startAuction(uint firstBid) public isAuctioneer{
+    function startAuction(uint firstBid, uint duration) public isAuctioneer{
         auctionState = state.start;
         startingBid = firstBid * (1 ether);
+        startTiming = block.timestamp;
+        endTiming = startTiming + (duration * 60);
     }
 
-    function endAuction() public isAuctioneer isAuctionStart{
+    function endAuction() public isAuctioneer isAuctionStart isAuctionEnd{
         highestBidder();
         for(uint i=0; i<bidderAddress.length; i++){
             if(bidderAddress[i] != winner){
@@ -50,7 +53,6 @@ contract Auction{
             }
         }
         auctionState = state.end;
-        getEther();
     }
 
     function highestBidder() public{
@@ -64,6 +66,8 @@ contract Auction{
     }
 
     function joinAuction() public isAuctionStart{
+        require(block.timestamp < endTiming, "Auction has been finished, You can't join.");
+        require(msg.sender != auctioneer, "Auctioneer cannot join the auction");
         bidder memory newBidder = bidder({
             bid : 0,
             isJoin : true,
@@ -74,7 +78,9 @@ contract Auction{
     }
 
     function placeBid() payable public isAuctionStart{
-        require(bidders[msg.sender].isJoin == true);
+        require(block.timestamp < endTiming, "Auction has been finished, You can't place bid.");
+        require(msg.sender != auctioneer, "Auctioneer cannot bid in the Auction.");
+        require(bidders[msg.sender].isJoin == true, "You have to join first");
         if(!(bidders[msg.sender].firstBid)){
             require(msg.value >= startingBid, "You have to bid atleast of starting Bid");
             bidders[msg.sender].firstBid = true;
@@ -87,7 +93,14 @@ contract Auction{
         return address(this).balance;
     }
 
-    function getEther() public isAuctioneer isAuctionEnd{
+    function getEther() public isAuctionEnd{
+        require(msg.sender == winner);
         auctioneer.transfer(address(this).balance);
+    }
+
+    function isAssestDelivered() public isAuctionEnd{
+        require(msg.sender == winner);
+        getEther();
+
     }
 }
