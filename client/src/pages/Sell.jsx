@@ -1,14 +1,10 @@
 import '../css/Sell.css';
 
-import { useState } from 'react';
-import { useEffect } from 'react';
-
 export default function Sell(){
-
     return(
         <>  
           <div className="form-container">
-            <form action='../../server/post' method='post'>
+            <form  method='post'>
                 <div>
                     <input type="text" placeholder="Product Name"/>
                 </div>

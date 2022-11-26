@@ -1,14 +1,19 @@
-// SPDX-License-Identifier: GPL-3.0
+// SPDX-License-Identifier: UNLICENSED
 
-pragma solidity 0.8.17; 
+pragma solidity >=0.5.0 <0.9.0; 
 
 contract Auction{
     address payable public auctioneer; 
+    uint public startingBid;
+    string productName;
+    string productDetails;
+    string productImage;
+    string productVideo; 
     uint public startTiming;
     uint public endTiming;
     enum state{start,end,wait,cancel}
     state public auctionState = state.wait;
-    uint public startingBid; 
+     
 
     struct bidder{
         uint bid;
@@ -19,9 +24,13 @@ contract Auction{
     mapping (address=>bidder) public bidders;
     address payable[] public bidderAddress;
     address winner;
-
-    constructor(){
-        auctioneer = payable(msg.sender);
+    
+    constructor(address _auctioneer, string memory _productName, string memory _productDetails, string memory _productImage, string memory _productVideo){
+        auctioneer = payable(_auctioneer);
+        productName = _productName;
+        productDetails = _productDetails; 
+        productImage = _productImage; 
+        productVideo = _productVideo; 
     }
 
     modifier isAuctioneer{
@@ -89,7 +98,7 @@ contract Auction{
         bidders[msg.sender].bid = bidders[msg.sender].bid + msg.value;
     }
 
-    function getBalance() public isAuctioneer isAuctionEnd view returns(uint balance){
+    function getBalance() public isAuctioneer view returns(uint balance){
         return address(this).balance;
     }
 
@@ -101,6 +110,5 @@ contract Auction{
     function isAssestDelivered() public isAuctionEnd{
         require(msg.sender == winner);
         getEther();
-
     }
 }

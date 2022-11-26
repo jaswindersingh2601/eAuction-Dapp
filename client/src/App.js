@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import logo from './logo.svg';
+import { useEffect } from "react";
+import  Web3  from 'web3';
+
 import './App.css';
 import Navbar from './Components/Navbar';
-
 import Home from "./pages/Home";
 import Auction from "./pages/Auction";
 import Sell from "./pages/Sell";
+
 function App() {
   return (
     <div className="App">
@@ -22,3 +24,4 @@ function App() {
 }
 
 export default App;
+
