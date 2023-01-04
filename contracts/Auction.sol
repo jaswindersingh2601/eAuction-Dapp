@@ -1,19 +1,19 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.5.0 <0.9.0; 
 
 contract Auction{
     address payable public auctioneer; 
     uint public startingBid;
-    string productName;
-    string productDetails;
-    string productImage;
-    string productVideo; 
+    string public productName;  
+    string public productDetails;
+    string public productImage;
+    string public productVideo;
     uint public startTiming;
     uint public endTiming;
+    uint public highestBid;
     enum state{start,end,wait,cancel}
-    state public auctionState = state.wait;
-     
+    state public auctionState = state.wait; 
 
     struct bidder{
         uint bid;
@@ -23,14 +23,14 @@ contract Auction{
 
     mapping (address=>bidder) public bidders;
     address payable[] public bidderAddress;
-    address winner;
+    address public winner;
     
     constructor(address _auctioneer, string memory _productName, string memory _productDetails, string memory _productImage, string memory _productVideo){
-        auctioneer = payable(_auctioneer);
+        auctioneer = payable(_auctioneer); 
         productName = _productName;
         productDetails = _productDetails; 
         productImage = _productImage; 
-        productVideo = _productVideo; 
+        productVideo = _productVideo;
     }
 
     modifier isAuctioneer{
@@ -47,6 +47,11 @@ contract Auction{
         require(block.timestamp >= endTiming, "Auction is ongoing, Please wait for the auction to finish");
         _;
     }
+
+    function getBiddersAddress() public view returns(address payable[] memory){
+        return bidderAddress;
+    }
+    
     function startAuction(uint firstBid, uint duration) public isAuctioneer{
         auctionState = state.start;
         startingBid = firstBid * (1 ether);
@@ -55,7 +60,6 @@ contract Auction{
     }
 
     function endAuction() public isAuctioneer isAuctionStart isAuctionEnd{
-        highestBidder();
         for(uint i=0; i<bidderAddress.length; i++){
             if(bidderAddress[i] != winner){
                 bidderAddress[i].transfer(bidders[bidderAddress[i]].bid);
@@ -64,15 +68,6 @@ contract Auction{
         auctionState = state.end;
     }
 
-    function highestBidder() public{
-        uint max = 0; 
-        for(uint i=0; i<bidderAddress.length; i++){
-            if(bidders[bidderAddress[i]].bid > max){
-                max = bidders[bidderAddress[i]].bid;
-                winner = bidderAddress[i];
-            }
-        }
-    }
 
     function joinAuction() public isAuctionStart{
         require(block.timestamp < endTiming, "Auction has been finished, You can't join.");
@@ -96,6 +91,10 @@ contract Auction{
         }
         require(bidders[msg.sender].bid + msg.value >= bidders[msg.sender].bid + (1 ether), "You have to increase your bid by atleast 1 ether.");
         bidders[msg.sender].bid = bidders[msg.sender].bid + msg.value;
+        if(bidders[msg.sender].bid > highestBid){
+            highestBid = bidders[msg.sender].bid;
+            winner = msg.sender;
+        }
     }
 
     function getBalance() public isAuctioneer view returns(uint balance){
@@ -103,12 +102,12 @@ contract Auction{
     }
 
     function getEther() public isAuctionEnd{
-        require(msg.sender == winner);
+        require(msg.sender == winner, "getEther() function execute only by the winner, his permission is required");
         auctioneer.transfer(address(this).balance);
     }
 
     function isAssestDelivered() public isAuctionEnd{
-        require(msg.sender == winner);
+        require(msg.sender == winner, "isAssetDelivered() function execute only by the winner, his permission is required");
         getEther();
     }
 }

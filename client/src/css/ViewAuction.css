@@ -1,0 +1,23 @@
+.container{
+    border: 2px solid red;
+    width: 100vw;
+    padding: 2rem;
+}
+
+.product-card{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid green;
+    padding: 2rem;
+}
+
+.auction-functionalities{
+    margin : 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    height: 150px;
+}
