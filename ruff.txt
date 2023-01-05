@@ -355,3 +355,16 @@ const abi = [
           constant: true,
         },
       ];
+
+import { NavbarContainer, Nav, Logo, Menu } from './NavbarElements';
+<NavbarContainer>
+            <Nav>
+                <Logo></Logo>
+                <Menu>
+                    <Link  to="/">Home</Link>
+                    <Link  to="/auction">All Auctions</Link>
+                    <Link  to="/sell">Create</Link>
+                    <Link  to="/yourAuctions">Your Auctions</Link>
+                </Menu>
+            </Nav>
+</NavbarContainer>

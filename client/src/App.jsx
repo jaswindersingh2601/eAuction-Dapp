@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import  Web3  from 'web3';
 
 import './App.css';
-import Navbar from './Components/Navbar';
+import Navbar from './Components/Navbar/Navbar';
 import Home from "./pages/Home";
 import Auction from "./pages/Auction";
 import Sell from "./pages/Sell";
