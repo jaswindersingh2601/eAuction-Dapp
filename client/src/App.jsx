@@ -7,9 +7,8 @@ import Navbar from './Components/Navbar/Navbar';
 import Home from "./pages/Home";
 import Auction from "./pages/Auction/Auction";
 import Sell from "./pages/Sell";
-import ViewAuction from "./pages/ViewAuction";
-import YourAuctions from "./pages/YourAuctions";
-import OngoingAuctions from "./pages/OngoingAuctions";
+import ViewAuction from "./pages/ViewAuction/ViewAuction";
+import YourAuctions from "./pages/YourAuctions";  
 
 function App(){ 
   return (

@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 export default function AuctionContainer(props) {
   const [auction, setAuction] = useState([]);
   const [images, setImages] = useState([]);
-  const { web3, state, arr } = props;
+  const { web3, arr } = props;
 
   useEffect(() => {
     arr.map((address, index) => {

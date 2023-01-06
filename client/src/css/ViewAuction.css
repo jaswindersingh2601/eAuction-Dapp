@@ -4,15 +4,6 @@
     padding: 2rem;
 }
 
-.product-card{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: 2px solid green;
-    padding: 2rem;
-}
-
 .auction-functionalities{
     margin : 1rem;
     display: flex;

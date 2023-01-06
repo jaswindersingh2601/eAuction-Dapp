@@ -444,8 +444,8 @@ export default function Auction() {
                 <Button onClick={() => setActive("0")}>Ongoing</Button>
                 <Button onClick={() => setActive("2")}>Upcoming</Button>
               </ButtonContainer>
-              {active === "0" && <AuctionContainer state="0" web3={web3} arr={ongoing} />}
-              {active === "2" && <AuctionContainer state="2" web3={web3} arr={waiting} />}
+              {active === "0" && <AuctionContainer web3={web3} arr={ongoing} />}
+              {active === "2" && <AuctionContainer web3={web3} arr={waiting} />}
             </>
           ) : (
             <h2>not created.</h2>
