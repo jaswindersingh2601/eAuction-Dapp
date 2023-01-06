@@ -5,7 +5,7 @@ import  Web3  from 'web3';
 import './App.css';
 import Navbar from './Components/Navbar/Navbar';
 import Home from "./pages/Home";
-import Auction from "./pages/Auction";
+import Auction from "./pages/Auction/Auction";
 import Sell from "./pages/Sell";
 import ViewAuction from "./pages/ViewAuction";
 import YourAuctions from "./pages/YourAuctions";

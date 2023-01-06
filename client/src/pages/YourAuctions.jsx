@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import {Routes, Route, useLocation, Link} from "react-router-dom"; 
 import Container from '../Components/Container';
 
-var web3;
+var web3; 
 var accounts;
 var contract;
 
