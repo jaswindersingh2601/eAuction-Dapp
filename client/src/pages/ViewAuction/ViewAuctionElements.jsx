@@ -33,7 +33,8 @@ export const FuncContainer = styled.div`
     // border: 2px solid red;
 `
 export const Form = styled.div`
-
+    display: flex;
+    justify-content: flex-end;
 `
 export const Button = styled.button`
     width: 10rem;
@@ -46,7 +47,7 @@ export const Button = styled.button`
     font-weight: bold;
     cursor: pointer;
 `
-export const Subtitle = styled.h3`
+export const Subtitle = styled.h4`
 
 `
 export const Input = styled.input`
@@ -62,6 +63,21 @@ export const Box = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    // border: 2px solid green;
     margin: 0.5rem 0;
+`
+export const BidderContainer = styled.div`
+    width: 78%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+`
+export const BidderCard = styled.div`
+    margin: 0.5rem;
+    border-radius: 5px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+    width: 28rem;
+    height: 4rem;
+    text-align: center;
+    line-height: 55px;
 `

@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Container, ProductContainer, Image, DetailsContainer, Title, Description, FuncContainer, Subtitle, Button, Form, Input, Box } from "./ViewAuctionElements";
+import { Container, ProductContainer, Image, DetailsContainer, Title, Description, FuncContainer, Subtitle, Button, Form, Input, Box, BidderContainer, BidderCard } from "./ViewAuctionElements";
 import "../../css/ViewAuction.css";
 
 var web3;
@@ -370,14 +370,16 @@ const ViewAuction = () => {
       setJoin(bid.isJoin); 
       const bidderAddress = await contract.methods.getBiddersAddress().call();
       SetBidderAddress(bidderAddress);
-      const res = await contract.methods.winner().call(); 
-      setWinner(res)
+      const result = await contract.methods.winner().call(); 
+      setWinner(result)
+      const res = await contract.methods.highestBid().call()
+      setHighestBid(res/1000000000000000000)
       if( res.toLowerCase() === accounts[0].toLowerCase() && state === "1"){
         setDelivered(true)
       }
       bidderAddress.map( (address) => {
         contract.methods.bidders(address).call()
-        .then( res => setBids( prev => [...prev, res.bid]))
+        .then( res => setBids( prev => [...prev, res.bid/1000000000000000000]))
       })
     }
     fetchContract(id);
@@ -431,10 +433,19 @@ const ViewAuction = () => {
     await contract.methods.isAssestDelivered().send({ from: accounts[0], gas: 3000000 })
   }
 
+  async function endAuction(){
+    try {
+      const res = await contract.methods.endAuction().send({ from: accounts[0], gas: 3000000});
+      window.alert('Auction ended successfully')
+    } catch (err) {
+      const x = err.message;
+      window.alert(x.slice(65, x.length))
+    }
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
   }
-
   return (
     <>
       {
@@ -447,40 +458,48 @@ const ViewAuction = () => {
               <Description>{details}</Description>
               </DetailsContainer>
             </ProductContainer>
-            <div className="auction-functionalities">
-              <div>
+            <FuncContainer>
+              <Box>
+              <Subtitle>{ state === "0" && <span> (Ongoing) </span> }{ state === "1" && <span> (Ended) </span> }{ endTiming !== "0" && <span>Ends on : { (new Date(endTiming*1000)).toLocaleString()}</span>}</Subtitle> 
                 {
                   state === '2' ? (
-                    <div>
-                      <form onSubmit={handleSubmit}>
-                        <input type="number" name="" id="" value={startingBid} onChange={(e) => setStartingBid(e.target.value)} />
-                        <input type="number" name="" id="" value={duration} onChange={(e) => setDuration(e.target.value)} />
-                        <button onClick={(e) => startAuction(startingBid, duration)}>Start Auction</button>
-                      </form>
-                    </div>
+                      <Form onSubmit={handleSubmit}>
+                        <Input type="number" name="" id="" value={startingBid} onChange={(e) => setStartingBid(e.target.value)} />
+                        <Input type="number" name="" id="" value={duration} onChange={(e) => setDuration(e.target.value)} />
+                        <Button onClick={(e) => startAuction(startingBid, duration)}>Start Auction</Button>
+                      </Form>
                   ) : (
-                    <div>
-                      <h2>Auction State is : {state}</h2>
-                    </div>
+                    <></>
                   )
                 }
-              </div>
-              <div>
+                {
+                  state !== "1" && endTiming <= Math.floor(new Date().getTime()/1000.0) && endTiming != "0" ? (
+                    <Button onClick={ () => endAuction()}>End Auction</Button>
+                  ):(
+                    <></>
+                  ) 
+                }
+              </Box>
+              <Box>
+              <p>
+              <h4>Highest Bid : {highestBid} ETH</h4>
+              <h4>Winner will be : {winner}</h4>
+              </p>
+              <Button onClick={ () => getHighestBid() }>Highest Bid</Button>
+              </Box>
                 <h3>All Bidders</h3>
-                <h2>{bidderAddress.length}</h2>
-                <div className="bidder-card">
+                <BidderContainer>
                   {
                     bidderAddress.map((address, index) => {
                       return (
-                        <div key={index}> 
-                          <span>{address} : {bids[index]}</span> 
-                        </div>
+                        <BidderCard key={index}> 
+                          <span>{address} : {bids[index]} ETH</span> 
+                        </BidderCard>
                       )
                     })
                   }
-                </div>
-              </div>
-            </div>
+                </BidderContainer>
+            </FuncContainer>
           </Container>
         ) : (
           <Container>
