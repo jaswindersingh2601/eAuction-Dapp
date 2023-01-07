@@ -334,7 +334,7 @@ export default function AuctionContainer(props) {
           })}
         </CardContainer>
       ) : (
-        <h2>hmm</h2>
+        <h2>Not Present</h2>
       )}
     </>
   );

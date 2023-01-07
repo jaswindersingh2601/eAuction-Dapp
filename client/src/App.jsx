@@ -6,7 +6,7 @@ import './App.css';
 import Navbar from './Components/Navbar/Navbar';
 import Home from "./pages/Home";
 import Auction from "./pages/Auction/Auction";
-import Sell from "./pages/Sell";
+import Sell from "./pages/Sell/Sell";
 import ViewAuction from "./pages/ViewAuction/ViewAuction";
 import YourAuctions from "./pages/YourAuction/YourAuctions";  
 

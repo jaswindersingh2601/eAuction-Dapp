@@ -1,21 +1,18 @@
 import { useState, useEffect } from "react";
 import Web3 from "web3";
-import { Link as RouterLink } from "react-router-dom";
 import { AllAuction, Button, ButtonContainer } from "./AuctionElements";
 import AuctionContainer from "../../Components/AuctionContainer/AuctionContainer";
-import "../../css/Auction.css";
 
 var web3;
 var accounts;
 var contract;
-var imagesArray = [];
 
 export default function Auction() {
   var [auctionArray, setAuctionArray] = useState([]);
   const [ongoing, setOngoing] = useState([]);
   const [waiting, setWaiting] = useState([]);
   var [images, setImages] = useState([]);
-  const [active, setActive] = useState("");
+  const [active, setActive] = useState();
 
   async function connect3() {
     var currentProvider = new window.Web3.providers.HttpProvider(
@@ -410,11 +407,6 @@ export default function Auction() {
       ]
       arr.map((instAdd) => {
         const cont = new web3.eth.Contract(instAbi, instAdd);
-        cont.methods.productImage().call().then(res => setImages((prev) => [...prev, res]))
-      })
-
-      arr.map((instAdd) => {
-        const cont = new web3.eth.Contract(instAbi, instAdd);
         cont.methods.auctionState().call().then(res => {
           if (res === "0") {
             setOngoing(prev => [...prev, instAdd])
@@ -427,12 +419,6 @@ export default function Auction() {
     } 
     factoryContractCall();
   }, []);
-
-  function handleJoinAuction(e, inst) {
-    inst.methods.joinAuction().send({ from: accounts[0], gas: 3000000 })
-      .then(res => window.alert(res))
-      .catch(err => window.alert(err))
-  }
 
   return (
     <>
