@@ -436,6 +436,7 @@ const ViewAuction = () => {
     try {
       const res = await contract.methods.endAuction().send({ from: accounts[0], gas: 3000000});
       window.alert('Auction ended successfully')
+      this.render();
     } catch (err) {
       const x = err.message;
       window.alert(x.slice(65, x.length))

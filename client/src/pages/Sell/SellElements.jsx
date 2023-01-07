@@ -10,8 +10,9 @@ export const FormContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    background: grey;
+    align-items: center; 
+    background: rgb(255,194,153);
+    background: linear-gradient(241deg, rgba(255,194,153,1) 19%, rgba(230,230,230,1) 71%);
     width: 50%;
     height: auto;
     margin: 1rem auto;
@@ -40,16 +41,17 @@ export const Input = styled.input`
     border-radius: 5px;
     text-align: center;
     font-size: 0.9rem;
-    color: grey;
+    color: #666666;
 `;
 
 export const Textarea = styled.textarea`
     margin: 5px;
     padding: 5px;
+    border: none;
     border-radius: 5px;
     text-align: center;
     font-size: 0.99rem;
-    color: grey;
+    color: #666666;
 `;
 
 export const Button = styled.button`
@@ -57,12 +59,12 @@ export const Button = styled.button`
     margin: 5px;
     text-align: center;
     font-size: 1.3rem;
-    border: #737373 1px solid;
+    border: none;
     border-radius: 6px;
     background: #ff8533;
     color: #fff0e6;
 `;
 
 export const Title = styled.h1`
-    color: #e6e6e6;
+    color: #595959;
 `
