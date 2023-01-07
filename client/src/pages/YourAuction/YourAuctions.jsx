@@ -1,7 +1,8 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import {Routes, Route, useLocation, Link} from "react-router-dom"; 
-import Container from '../Components/Container';
+import {Routes, Route, useLocation, Link} from "react-router-dom";
+import { AllAuction, ButtonContainer, Button } from './YourAuctionElements'; 
+import Container from '../../Components/Container/Container';
 
 var web3; 
 var accounts;
@@ -9,7 +10,7 @@ var contract;
 
 const YourAuctions = () => {
     var [yourAuctions, setYourAuctions] = useState([]);
-    var [active, setActive] = useState('waiting');
+    var [active, setActive] = useState('');
 
     useEffect( () => {
         async function connect3() {
@@ -414,18 +415,16 @@ const YourAuctions = () => {
   return ( 
     <>
         { yourAuctions.length > 0 ? (
-            <div>
-                <div className="button-container">
-                  <button onClick={() => setActive('ongoing')}>Ongoing Aucitons</button>
-                  <button onClick={() => setActive('waiting')}>Waiting Auctions</button>
-                  <button onClick={() => setActive('ended')}>Ended Auctions</button>
-                </div>
-                <div>
+            <AllAuction>
+                <ButtonContainer>
+                  <Button onClick={() => setActive('ongoing')}>Ongoing Aucitons</Button>
+                  <Button onClick={() => setActive('waiting')}>Waiting Auctions</Button>
+                  <Button onClick={() => setActive('ended')}>Ended Auctions</Button>
+                </ButtonContainer>
                   { active === 'ongoing' && <Container data={yourAuctions} state="0" web_3={web3}/>}
                   { active === 'waiting' && <Container data={yourAuctions} state="2" web_3={web3}/>}
                   { active === 'ended' && <Container data={yourAuctions} state="1" web_3={web3}/>}
-                </div>
-            </div>
+            </AllAuction>
         ) : (
             <div>
                 <h2>You haven't created any auction :(</h2>
@@ -435,4 +434,4 @@ const YourAuctions = () => {
   )
 }
 
-export default YourAuctions;
+export default YourAuctions; 

@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, ProductContainer, Image, DetailsContainer, Title, Description, FuncContainer, Subtitle, Button, Form, Input, Box, BidderContainer, BidderCard } from "./ViewAuctionElements";
-import "../../css/ViewAuction.css";
 
 var web3;
 var accounts;
@@ -525,7 +524,7 @@ const ViewAuction = () => {
               </Box>
               <Box>
               <h3>Your Bid : {userBid} ETH</h3>
-              <Form className="bid-Form" onSubmit={handleSubmit}>
+              <Form onSubmit={handleSubmit}>
                 <Input type="number" name="" id="" value={bidAmount} onChange={(e) => setBidAmount(e.target.value)} />
                 <Button type="submit" onClick={(e) => placeBid(accounts[0], bidAmount)}>Place Bid</Button>
               </Form>

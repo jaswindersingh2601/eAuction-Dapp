@@ -6,9 +6,7 @@ export const CardContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
-    flex-wrap: wrap;
-    // border: 2px solid red;  
-    
+    flex-wrap: wrap;  
 ` 
 export const Image = styled.img`
     margin: 0.5rem 0.5rem;

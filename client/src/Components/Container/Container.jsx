@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; 
+import { CardContainer, Image } from "./ContainerElements";
 
 function Container(props){
     const [auctions, setAuctions] = useState([]);
@@ -305,10 +306,13 @@ function Container(props){
                     if(res === state){
                         setAuctions( prev => [...prev, address])
                         return address;
+                    }else{
+                      return 0;
                     }
                 })
                 .then( res => {
-                    const instAbi = [
+                    if(res !== 0){
+                      const instAbi = [
                         {
                           inputs: [
                             {
@@ -603,6 +607,7 @@ function Container(props){
                     .then( res => {
                         setImages( (prev) => [...prev, res]) 
                     })
+                    }
                 })
         })
     }, [])
@@ -610,24 +615,22 @@ function Container(props){
         <>  
             {
                 auctions.length > 0 ? (
-                    <div className="container">
+                    <CardContainer>
                         {
                             auctions.map( (address, index) => {
                                 
                                 return(
-                                    <div className="auction-container" key={index}>
                                         <Link className="router-link" to={`/yourAuctions/${address}`}>
-                                        <img className="auction-images"
+                                        <Image className="auction-images"
                                             src={images[index]}
                                             alt={images[index]}
                                         />
-                                        </Link>
-                                    </div>
+                                        </Link> 
                                 )
                             })
                         }
-
-                    </div>
+ 
+                    </CardContainer>
                 ): (
                     <h2>auctions not created.</h2>
                 )
