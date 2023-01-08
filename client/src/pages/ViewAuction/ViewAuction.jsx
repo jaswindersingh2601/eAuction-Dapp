@@ -19,8 +19,8 @@ const ViewAuction = () => {
   const [isAuctioneer, setIsAuctioneer] = useState(false);
   const [isJoin, setJoin] = useState(false);
   const [state, setState] = useState(); 
-  const [startingBid, setStartingBid] = useState(0);
-  const [duration, setDuration] = useState(0);
+  const [startingBid, setStartingBid] = useState();
+  const [duration, setDuration] = useState();
   const [bidderAddress, SetBidderAddress] = useState([]);
   const [bidders, setBidders] = useState([]);
   const [bids, setBids] = useState([]);
@@ -398,11 +398,19 @@ const ViewAuction = () => {
 
   async function startAuction(startingBid, duration) {
     try {
-      const res = await contract.methods.startAuction(startingBid, duration).send({ from: accounts[0], gas: 3000000 })
-      window.alert(res)
+      if(startingBid > 0 && duration > 0){
+        const res = await contract.methods.startAuction(startingBid, duration).send({ from: accounts[0], gas: 3000000 })
+        const end = await contract.methods.endTiming().call();
+        window.alert('Auction started successfully')
+        setState("0")
+        setEndTiming(end)
+      }else{
+        throw new Error('Both Starting Bid and duration are required')
+      }
     } catch (err) {
       const x = err.message;
       window.alert(x.slice(65, x.length))
+      console.log(err)
     }
   }
 
@@ -464,8 +472,8 @@ const ViewAuction = () => {
                 {
                   state === '2' ? (
                       <Form onSubmit={handleSubmit}>
-                        <Input type="number" name="" id="" value={startingBid} onChange={(e) => setStartingBid(e.target.value)} />
-                        <Input type="number" name="" id="" value={duration} onChange={(e) => setDuration(e.target.value)} />
+                        <Input type="number" placeholder="Starting Bid(ETH)" value={startingBid} onChange={(e) => setStartingBid(e.target.value)} />
+                        <Input type="number" placeholder="Duration(min)" value={duration} onChange={(e) => setDuration(e.target.value)} />
                         <Button onClick={(e) => startAuction(startingBid, duration)}>Start Auction</Button>
                       </Form>
                   ) : (
