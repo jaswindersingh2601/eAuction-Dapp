@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"; 
 import { React } from "react";
-import { CardContainer, Image } from "./AuctionContElements";
+import { CardContainer, Image, SubTitle } from "./AuctionContElements";
 import { Link } from 'react-router-dom';
 
 export default function AuctionContainer(props) {
   const [auction, setAuction] = useState([]);
-  const [images, setImages] = useState([]);
+  const [images, setImages] = useState([]); 
   const { web3, arr } = props;
 
   useEffect(() => {
@@ -334,7 +334,7 @@ export default function AuctionContainer(props) {
           })}
         </CardContainer>
       ) : (
-        <h2>Not Present</h2>
+        <SubTitle>Not Present</SubTitle>
       )}
     </>
   );

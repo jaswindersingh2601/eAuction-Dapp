@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { CardContainer, Image, SubTitle } from "./ContainerElements";
+import { CardContainer, Image, SubTitle, } from "./ContainerElements";
 
 function Container(props) {
   const [auctions, setAuctions] = useState([]);

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import Web3 from "web3";
-import { AllAuction, Button, ButtonContainer } from "./AuctionElements";
+import { AllAuction, Button, ButtonContainer, SubTitle, Box } from "./AuctionElements";
 import AuctionContainer from "../../Components/AuctionContainer/AuctionContainer";
 
 var web3;
-var accounts;
+var accounts; 
 var contract;
 
 export default function Auction() {
@@ -434,7 +434,11 @@ export default function Auction() {
               {active === "2" && <AuctionContainer web3={web3} arr={waiting} />}
             </>
           ) : (
-            <h2>not created.</h2>
+            <Box>
+              <SubTitle>
+                Not Present
+              </SubTitle>
+            </Box>
           )
         }
       </AllAuction>

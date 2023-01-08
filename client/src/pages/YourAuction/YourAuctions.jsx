@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import { Routes, Route, useLocation, Link } from "react-router-dom";
-import { container, AllAuction, ButtonContainer, Button } from './YourAuctionElements';
+import { ContainerBox, AllAuction, ButtonContainer, Button, Title, SubTitle, Box } from './YourAuctionElements';
 import Container from '../../Components/Container/Container';
 
 var web3;
@@ -426,13 +426,14 @@ const YourAuctions = () => {
   }, [])
 
   return (
-    <> 
+    <ContainerBox> 
+      <Title>Created</Title>
       {yourAuctions.length > 0 ? (
         <AllAuction>
           <ButtonContainer>
-            <Button onClick={() => setActive('ongoing')}>Ongoing Aucitons</Button>
-            <Button onClick={() => setActive('waiting')}>Waiting Auctions</Button>
-            <Button onClick={() => setActive('ended')}>Ended Auctions</Button>
+            <Button onClick={() => setActive('ongoing')}>Ongoing</Button>
+            <Button onClick={() => setActive('waiting')}>Waiting</Button>
+            <Button onClick={() => setActive('ended')}>Ended</Button>
           </ButtonContainer>
           {active === 'ongoing' && <Container data={yourAuctions} state="0" web_3={web3} msg="created"/>}
           {active === 'waiting' && <Container data={yourAuctions} state="2" web_3={web3} msg="created"/>}
@@ -440,9 +441,12 @@ const YourAuctions = () => {
         </AllAuction>
       ) : (
         <AllAuction>
-          <h2>You have not created any Auction</h2>
+          <Box>
+          <SubTitle>You have not created any auction</SubTitle>
+          </Box> 
         </AllAuction> 
-      )} 
+      )}
+      <Title>Participated</Title>
       {
         participated.length > 0 ? (
           <AllAuction>
@@ -454,10 +458,14 @@ const YourAuctions = () => {
             { active1 === 'ended' && <Container data={participated} state="1" web_3={web3} msg="participated"/>}
           </AllAuction>
         ) : (
-          <h2>Not participated in any auction yet.</h2>
+          <AllAuction>
+            <Box>
+            <SubTitle>You have not participated in any auction yet</SubTitle>
+            </Box>
+          </AllAuction>
         )
       }
-    </>
+    </ContainerBox>
   )
 }
 

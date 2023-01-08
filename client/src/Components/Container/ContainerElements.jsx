@@ -3,10 +3,11 @@ import styled from 'styled-components';
 export const CardContainer = styled.div`
     min-height: 400px;
     margin: 0px;
-    padding: 0px;
+    padding: auto 0px;
     width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-wrap: wrap;
     background: linear-gradient(241deg, rgba(255,194,153,1) 19%, rgba(230,230,230,1) 71%);  
     border-radius: 5px;
@@ -21,5 +22,5 @@ export const Image = styled.img`
 export const SubTitle = styled.h1`
     color: #404040;
     line-height: 400px;
-    font-size: 3rem;
+    font-size: 2rem;
 `
