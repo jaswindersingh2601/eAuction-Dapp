@@ -417,6 +417,7 @@ const ViewAuction = () => {
   async function joinAuction() {
     try { 
       const res = await contract.methods.joinAuction().send({ from: accounts[0], gas: 3000000 })
+      window.alert('You have joined successfully')
       setJoin(true)
     } catch (err) {
       const x = err.message;
