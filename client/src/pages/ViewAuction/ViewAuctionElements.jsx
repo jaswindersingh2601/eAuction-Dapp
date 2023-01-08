@@ -58,6 +58,9 @@ export const Input = styled.input`
     border: 1px solid #f58433;
     border-radius: 5px;
     text-align: center;
+    color: #666666;
+    font-size: 1rem;
+    font-weight: bold;
 `
 export const Box = styled.div`
     width: 100%;

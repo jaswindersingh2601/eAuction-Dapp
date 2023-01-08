@@ -386,10 +386,12 @@ const ViewAuction = () => {
 
   async function placeBid(bidderAdd, amount) {
     try {
-      const res = await contract.methods.placeBid().send({ from: bidderAdd, value: amount, gas: 3000000 });
+      const bidAmount = amount * 1000000000000000000;
+      const res = await contract.methods.placeBid().send({ from: bidderAdd, value: bidAmount, gas: 3000000 });
       const bid = await contract.methods.bidders(bidderAdd).call();
-      setUserBid(bid.bid)
-      console.log(res)
+      setBidAmount(0);
+      setUserBid((bid.bid)/1000000000000000000)
+      window.alert(`Your bid of ${amount} is successfully placed`)
     } catch (err) {
       const x = err.message;
       window.alert(x.slice(65, x.length))
@@ -536,7 +538,7 @@ const ViewAuction = () => {
               <h3>Your Bid : {userBid} ETH</h3>
               <Form onSubmit={handleSubmit}>
                 <Input type="number" name="" id="" value={bidAmount} onChange={(e) => setBidAmount(e.target.value)} />
-                <Button type="submit" onClick={(e) => placeBid(accounts[0], bidAmount)}>Place Bid</Button>
+                <Button type="submit" onClick={(e) => placeBid(accounts[0], bidAmount)}>Place Bid (ETH)</Button>
               </Form>
               </Box>
               <Box>
