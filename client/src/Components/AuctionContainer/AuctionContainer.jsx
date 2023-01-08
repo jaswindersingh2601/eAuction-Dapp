@@ -334,7 +334,9 @@ export default function AuctionContainer(props) {
           })}
         </CardContainer>
       ) : (
-        <SubTitle>Not Present</SubTitle>
+        <CardContainer>
+          <SubTitle>Not Present</SubTitle>
+        </CardContainer>
       )}
     </>
   );

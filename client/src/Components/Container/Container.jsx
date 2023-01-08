@@ -300,7 +300,7 @@ function Container(props) {
           type: "function",
         },
       ]
-      const contractInst = new web_3.eth.Contract(instAbi, address);
+      const contractInst = new web_3.eth.Contract(instAbi, address); 
       contractInst.methods.auctionState().call()
         .then(res => {
           if (res === state) {
