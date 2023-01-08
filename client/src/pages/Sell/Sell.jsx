@@ -1,5 +1,4 @@
-// import '../css/Sell.css';
-import { useEffect, useState } from "react";
+ import { useEffect, useState } from "react";
 import { AdvancedImage } from "@cloudinary/react";
 import { Cloudinary } from "@cloudinary/url-gen";
 import Web3 from "web3";
@@ -15,10 +14,10 @@ import {
 } from "./SellElements";
 
 export default function Sell() {
-  const [productName, setName] = useState("Product Name");
-  const [productDetails, setDetails] = useState("Product Details");
-  const [productImage, setImage] = useState("Product Image");
-  const [productVideo, setVideo] = useState("Product Video");
+  const [productName, setName] = useState("");
+  const [productDetails, setDetails] = useState("");
+  const [productImage, setImage] = useState("");
+  const [productVideo, setVideo] = useState("");
   const [createdAuctions, setCreatedAuctions] = useState([]);
 
   var web3;
@@ -46,9 +45,11 @@ export default function Sell() {
   }, []);
 
   async function createContractInstance(name, details, image, video) {
-    await connect3();
-    const address = "0x71BB72BBDA11aA085B4Da0dE8399F7CFE27dd664";
-    const abi = [
+    try {
+      if(name !== "" && details !== "" && image != ""){
+        await connect3();
+        const address = "0x71BB72BBDA11aA085B4Da0dE8399F7CFE27dd664";
+        const abi = [
       {
         inputs: [
           {
@@ -112,12 +113,22 @@ export default function Sell() {
         type: "function",
         constant: true,
       },
-    ];
-    contract = new web3.eth.Contract(abi, address);
-    const inst = await contract.methods
-      .createAuction(name, details, image, video)
-      .send({ from: accounts[0], gas: 3000000 });
-    console.log(inst);
+                      ];
+        contract = new web3.eth.Contract(abi, address);
+        const inst = await contract.methods
+                    .createAuction(name, details, image, video)
+                    .send({ from: accounts[0], gas: 3000000 });
+        console.log(inst);
+        window.alert("Auction created Successfully")
+        setName("")
+        setImage("")
+        setDetails("")
+      }else{
+        throw new Error("All fields are required")
+      }
+    } catch (err) {
+      window.alert(err.message)
+    }
   }
 
   const handleSubmit = async (event) => {
@@ -139,6 +150,7 @@ export default function Sell() {
               <Input
                 type="text"
                 value={productName}
+                placeholder="Product Title"
                 onChange={(e) => {
                   setName(e.target.value);
                 }}
@@ -154,15 +166,14 @@ export default function Sell() {
               />
               <Input
                 type="text"
-                name=""
-                id=""
+                placeholder="Product Image"
                 value={productImage}
                 onChange={(e) => {
                   setImage(e.target.value);
                 }}
               />
               <Button type="submit" value="Create" onClick={handleSubmit}>
-                Submit
+                Create
               </Button>
             </Form>
           </FormContainer>
