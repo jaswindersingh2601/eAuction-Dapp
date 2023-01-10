@@ -18,14 +18,15 @@ export const Button = styled.button`
      
 `
 export const ButtonContainer = styled.div`
-    width: 42%;
+    width: 42%; 
     max-width: 650px;
     height : 3.5rem;    
 `
 
 export const AllAuction = styled.section`
     width: 80%;
-    height: 500px;
+    max-width: 1500px;
+    height: auto;
     margin: 1rem auto;
 `
 export const Box = styled.div`

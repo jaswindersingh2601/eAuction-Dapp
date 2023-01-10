@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
     width: 80%;
+    max-width: 1500px;
     height: auto;
     margin: 1rem auto;
 `
@@ -30,7 +31,9 @@ export const FuncContainer = styled.div`
     width: 100%; 
     height: auto;
     margin: 1rem 0;
-    // border: 2px solid red;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
 `
 export const Form = styled.div`
     display: flex;

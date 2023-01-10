@@ -1,10 +1,11 @@
 import styled from 'styled-components'
 
 export const NavbarContainer = styled.header`
-    width: 100%;
+    width: 100%; 
 `
 export const Nav = styled.nav`
     width: 80%;
+    max-width: 1500px;
     margin: auto;
     display: flex;
     justify-content: space-between;

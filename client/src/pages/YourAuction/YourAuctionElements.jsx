@@ -1,14 +1,14 @@
 import styled from 'styled-components'
 
 export const AllAuction = styled.section`
-    max-width: 1240px;
+    max-width: 1500px;
     width: 100%;
     margin: 1rem 0;
     height: auto;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: flex-start;
+    justify-content: flex-start; 
 `
 export const ButtonContainer = styled.div`
     width: 42%;
@@ -37,7 +37,7 @@ export const ContainerBox = styled.section`
     margin: 1rem auto;
     display: flex;
     flex-direction: column;
-    align-items: flex-star;
+    align-items: flex-start;
 `
 export const Title = styled.h1`
     color: #404040;

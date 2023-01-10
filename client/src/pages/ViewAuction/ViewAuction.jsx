@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Container, ProductContainer, Image, DetailsContainer, Title, Description, FuncContainer, Subtitle, Button, Form, Input, Box, BidderContainer, BidderCard } from "./ViewAuctionElements";
 
-var web3;
+var web3; 
 var accounts;
 var contract;
 
@@ -19,7 +19,7 @@ const ViewAuction = () => {
   const [isAuctioneer, setIsAuctioneer] = useState(false);
   const [isJoin, setJoin] = useState(false);
   const [state, setState] = useState(); 
-  const [startingBid, setStartingBid] = useState();
+  const [startingBid, setStartingBid] = useState(0);
   const [duration, setDuration] = useState();
   const [bidderAddress, SetBidderAddress] = useState([]);
   const [bidders, setBidders] = useState([]);
@@ -373,6 +373,8 @@ const ViewAuction = () => {
       setWinner(result)
       const res = await contract.methods.highestBid().call()
       setHighestBid(res/1000000000000000000)
+      const s = await contract.methods.startingBid().call();
+      setStartingBid(s/1000000000000000000)
       if( res.toLowerCase() === accounts[0].toLowerCase() && state === "1"){
         setDelivered(true)
       }
@@ -406,6 +408,7 @@ const ViewAuction = () => {
         window.alert('Auction started successfully')
         setState("0")
         setEndTiming(end)
+        setStartingBid(startingBid)
       }else{
         throw new Error('Both Starting Bid and duration are required')
       }
@@ -446,8 +449,10 @@ const ViewAuction = () => {
   async function endAuction(){
     try {
       const res = await contract.methods.endAuction().send({ from: accounts[0], gas: 3000000});
+      const end = await contract.methods.endTiming().call();
       window.alert('Auction ended successfully')
-      this.render();
+      setState("1")
+      setEndTiming(end)
     } catch (err) {
       const x = err.message;
       window.alert(x.slice(65, x.length))
@@ -470,6 +475,7 @@ const ViewAuction = () => {
               </DetailsContainer>
             </ProductContainer>
             <FuncContainer>
+            { state === "0" && <h3>Starting Bid : {startingBid} ETH</h3>}
               <Box>
               <Subtitle>{ state === "0" && <span> (Ongoing) </span> }{ state === "1" && <span> (Ended) </span> }{ endTiming !== "0" && <span>Ends on : { (new Date(endTiming*1000)).toLocaleString()}</span>}</Subtitle> 
                 {
@@ -522,14 +528,9 @@ const ViewAuction = () => {
               </DetailsContainer>
             </ProductContainer>
             <FuncContainer>
+              { state === "0" && <h3>Starting Bid : {startingBid} ETH</h3>}
               <Box>
-              {
-                endTiming !== "0" ? (
-                  <Subtitle>Ends on : { (new Date(endTiming*1000)).toLocaleString()}</Subtitle>
-                ): (
-                  <h2>Auction has not start yet. </h2>
-                )
-              }
+              <Subtitle>{ state === "0" && <span> (Ongoing) </span> }{ state === "1" && <span> (Ended) </span> }{ endTiming !== "0" && <span>Ends on : { (new Date(endTiming*1000)).toLocaleString()}</span>}</Subtitle>
               {
                 !isJoin && <Button onClick={ (e) => joinAuction()}>Join</Button>
               }
