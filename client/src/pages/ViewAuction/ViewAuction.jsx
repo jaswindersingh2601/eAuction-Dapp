@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { instAbi } from "../../ABI";
 import { Container, ProductContainer, Image, DetailsContainer, Title, Description, FuncContainer, Subtitle, Button, Form, Input, Box, BidderContainer, BidderCard } from "./ViewAuctionElements";
 
 var web3; 
@@ -46,310 +47,7 @@ const ViewAuction = () => {
 
     async function fetchContract(address) {
       await connect3();
-      const abi = [
-        {
-          "inputs": [],
-          "name": "endAuction",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "getEther",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "isAssestDelivered",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "joinAuction",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "placeBid",
-          "outputs": [],
-          "stateMutability": "payable",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "firstBid",
-              "type": "uint256"
-            },
-            {
-              "internalType": "uint256",
-              "name": "duration",
-              "type": "uint256"
-            }
-          ],
-          "name": "startAuction",
-          "outputs": [],
-          "stateMutability": "nonpayable",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "_auctioneer",
-              "type": "address"
-            },
-            {
-              "internalType": "string",
-              "name": "_productName",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "_productDetails",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "_productImage",
-              "type": "string"
-            },
-            {
-              "internalType": "string",
-              "name": "_productVideo",
-              "type": "string"
-            }
-          ],
-          "stateMutability": "nonpayable",
-          "type": "constructor"
-        },
-        {
-          "inputs": [],
-          "name": "auctioneer",
-          "outputs": [
-            {
-              "internalType": "address payable",
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "auctionState",
-          "outputs": [
-            {
-              "internalType": "enum Auction.state",
-              "name": "",
-              "type": "uint8"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "name": "bidderAddress",
-          "outputs": [
-            {
-              "internalType": "address payable",
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [
-            {
-              "internalType": "address",
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "name": "bidders",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "bid",
-              "type": "uint256"
-            },
-            {
-              "internalType": "bool",
-              "name": "isJoin",
-              "type": "bool"
-            },
-            {
-              "internalType": "bool",
-              "name": "firstBid",
-              "type": "bool"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "endTiming",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "getBalance",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "balance",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "getBiddersAddress",
-          "outputs": [
-            {
-              "internalType": "address payable[]",
-              "name": "",
-              "type": "address[]"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "highestBid",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "productDetails",
-          "outputs": [
-            {
-              "internalType": "string",
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "productImage",
-          "outputs": [
-            {
-              "internalType": "string",
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "productName",
-          "outputs": [
-            {
-              "internalType": "string",
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "productVideo",
-          "outputs": [
-            {
-              "internalType": "string",
-              "name": "",
-              "type": "string"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "startingBid",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "startTiming",
-          "outputs": [
-            {
-              "internalType": "uint256",
-              "name": "",
-              "type": "uint256"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        },
-        {
-          "inputs": [],
-          "name": "winner",
-          "outputs": [
-            {
-              "internalType": "address",
-              "name": "",
-              "type": "address"
-            }
-          ],
-          "stateMutability": "view",
-          "type": "function"
-        }
-      ];
-      contract = new web3.eth.Contract(abi, address);
+      contract = new web3.eth.Contract(instAbi, address);
       const auctioneer = await contract.methods.auctioneer().call();
       if (auctioneer.toLowerCase() === accounts[0].toLowerCase()) {
         setIsAuctioneer(true);
@@ -375,7 +73,7 @@ const ViewAuction = () => {
       setHighestBid(res/1000000000000000000)
       const s = await contract.methods.startingBid().call();
       setStartingBid(s/1000000000000000000)
-      if( res.toLowerCase() === accounts[0].toLowerCase() && state === "1"){
+      if( result.toLowerCase() === accounts[0].toLowerCase() && state === "1"){
         setDelivered(true)
       }
       bidderAddress.map( (address) => {
@@ -443,7 +141,13 @@ const ViewAuction = () => {
   }
 
   async function isDelivered(){
-    await contract.methods.isAssestDelivered().send({ from: accounts[0], gas: 3000000 })
+    try {
+      await contract.methods.isAssestDelivered().send({ from: accounts[0], gas: 3000000 })
+      window.alert("done successfully")
+    } catch (err) {
+      const x = err.message;
+      window.alert(x.slice(65, x.length))
+    }
   }
 
   async function endAuction(){

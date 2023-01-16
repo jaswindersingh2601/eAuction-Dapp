@@ -2,6 +2,8 @@
 import { AdvancedImage } from "@cloudinary/react";
 import { Cloudinary } from "@cloudinary/url-gen";
 import Web3 from "web3";
+import { abi, factoryAddress } from "../../ABI";
+
 import {
   Container,
   FormContainer,
@@ -48,73 +50,7 @@ export default function Sell() {
     try {
       if(name !== "" && details !== "" && image != ""){
         await connect3();
-        const address = "0x71BB72BBDA11aA085B4Da0dE8399F7CFE27dd664";
-        const abi = [
-      {
-        inputs: [
-          {
-            internalType: "uint256",
-            name: "",
-            type: "uint256",
-          },
-        ],
-        name: "auctions",
-        outputs: [
-          {
-            internalType: "address",
-            name: "",
-            type: "address",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-        constant: true,
-      },
-      {
-        inputs: [
-          {
-            internalType: "string",
-            name: "productName",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "productDetails",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "productImage",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "productVideo",
-            type: "string",
-          },
-        ],
-        name: "createAuction",
-        outputs: [],
-        stateMutability: "payable",
-        type: "function",
-        payable: true,
-      },
-      {
-        inputs: [],
-        name: "getAuctionDetails",
-        outputs: [
-          {
-            internalType: "address[]",
-            name: "",
-            type: "address[]",
-          },
-        ],
-        stateMutability: "view",
-        type: "function",
-        constant: true,
-      },
-                      ];
-        contract = new web3.eth.Contract(abi, address);
+        contract = new web3.eth.Contract(abi, factoryAddress);
         const inst = await contract.methods
                     .createAuction(name, details, image, video)
                     .send({ from: accounts[0], gas: 3000000 });
